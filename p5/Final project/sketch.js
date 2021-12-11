@@ -2,6 +2,7 @@
 //https://www.youtube.com/watch?v=ccYLb7cLB1I&list=WL&index=4&t=186s(shiffman)
 //https://youtu.be/nMUMZ5YRxHI
 //https://www.youtube.com/watch?v=i2C1hrJMwz0&list=WL&index=13
+//https://www.youtube.com/watch?v=RrjOp2tJ3VE
 //for the Disco class
 //let r =40;
 let bob;
@@ -33,7 +34,7 @@ let capricornAni;
 let aquariusAni;
 let piscesAni;
 //my sounds important to ambiance
-let typebeat;
+let typeBeat;
 let fontType;
 
 function preload(){
@@ -51,14 +52,16 @@ function preload(){
     aquariusImage = loadImage('zodiacs/Back_card_ aquarius.png');
     piscesImage = loadImage('zodiacs/Back_card_pisces.png');
 	//add animations
-    ariesAni = loadAnimation('Back_card_aries.png','aries_emperer.jpeg','aries_emperer2.png');
+    leoAni = loadAnimation('zodiacs/Back_card_leo.png','zodiacs/leo_strength.png','zodiacs/leo_strength2.png');
 	//add rnb background sound
-    //typebeat = loadSound('zodiacs/sminotypebeat.mp3');//FIGURE OUT WHY IT WONT WORK
+    soundFormats('mp3','ogg');
+    typeBeat = loadSound('zodiacs/sminotypebeat');//FIGURE OUT WHY IT WONT WORK
     fontType = loadFont('zodiacs/Fragmentcore.otf');
 }
 
 function setup() {
-    createCanvas(600, 600);
+    let sound = createCanvas(600, 600);//the only way to load osound is with user input
+    sound.mousePressed(canvasPressed)
 	//colorMode(HSB);
 	pixelDensity(1);//so that the retina display doesnt warp how i change the color of the pixels
 	for (let i =0; i< 5; i++){
@@ -67,10 +70,10 @@ function setup() {
 	textFont(fontType);
     textSize(35);
 	bob = new Disco(100,100);
+    let signRecord = new p5.SpeechRec();
 }
 
 function draw() {
-    //typebeat.play();
     background(255,150,50); 
     loadPixels();//my attempt at making a cool background i need to have a record of all the pixels on the screen
 for (let x = 0; x< width; x = x+2) {
@@ -101,25 +104,35 @@ updatePixels();// have to update everytime
 
     if(millis()< 10000){
        allzodiacs();
+        text('Play',10,50);
         text('What Is Your Zodiac Sign?',110,100);
         text('Tell Me When I Leave',150,590);
        }
     else{
         assignSign();
     }
+
 	//bob.update();
 	//bob.display();
 //console.log(frameRate());
 }
 
-function assignSign(){
- let sign = new p5.speechRec; 
-    sign.start();
-    if(resultString == 'aries'){
-       animation(ariesAni, width/2,height/2);
-        //play animation
-       }
+function canvasPressed(){
+    typeBeat.play();
+    typeBeat.loop();
 }
+
+function assignSign(){
+    signRecord.start();
+    switch(signRecord.resultString){
+        case 'leo':
+    animation(leoAni,width/2,height/2);
+            break
+        //play animation
+       //}
+}
+}
+
 function allzodiacs(){//change size and place in rows
     ariesImage.resize(83,160);
    image(ariesImage, 10,150);
