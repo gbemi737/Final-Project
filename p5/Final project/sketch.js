@@ -36,6 +36,7 @@ let piscesAni;
 //my sounds important to ambiance
 let typeBeat;
 let fontType;
+let recordSign = new p5.SpeechRec();
 
 function preload(){
 	//add images
@@ -51,17 +52,19 @@ function preload(){
     capricornImage = loadImage('zodiacs/Back_card_capricorn.png');
     aquariusImage = loadImage('zodiacs/Back_card_ aquarius.png');
     piscesImage = loadImage('zodiacs/Back_card_pisces.png');
-	//add animations
+	
+    //add animations
     leoAni = loadAnimation('zodiacs/Back_card_leo.png','zodiacs/leo_strength.png','zodiacs/leo_strength2.png');
-	//add rnb background sound
+	
+    //add rnb background sound
     soundFormats('mp3','ogg');
-    typeBeat = loadSound('zodiacs/sminotypebeat');//FIGURE OUT WHY IT WONT WORK
+    typeBeat = loadSound('zodiacs/sminotypebeat'); 
     fontType = loadFont('zodiacs/Fragmentcore.otf');
 }
 
 function setup() {
-    let sound = createCanvas(600, 600);//the only way to load osound is with user input
-    sound.mousePressed(canvasPressed)
+    let sound = createCanvas(650, 750);//the only way to load osound is with user input
+    sound.mousePressed(canvasPressed);
 	//colorMode(HSB);
 	pixelDensity(1);//so that the retina display doesnt warp how i change the color of the pixels
 	for (let i =0; i< 5; i++){
@@ -70,7 +73,6 @@ function setup() {
 	textFont(fontType);
     textSize(35);
 	bob = new Disco(100,100);
-    let signRecord = new p5.SpeechRec();
 }
 
 function draw() {
@@ -102,35 +104,50 @@ updatePixels();// have to update everytime
 	//discos[i].display();
 	}	
 
-    if(millis()< 10000){
+    if(millis()< 10000 && millis() >0){
        allzodiacs();
         text('Play',10,50);
         text('What Is Your Zodiac Sign?',110,100);
-        text('Tell Me When I Leave',150,590);
+        
        }
-    else{
-        assignSign();
+     if(millis()> 10000 && millis() <20000){
+        recordSign.onResult = assignSign;
     }
-
+ if(millis()> 20000){
+      allzodiacs();
+        text('Play',10,50);
+        text('What Is Your Zodiac Sign?',110,100);
+      //  sound.mousePressed(canvasPressed);
+ }
 	//bob.update();
 	//bob.display();
 //console.log(frameRate());
 }
 
+
 function canvasPressed(){
-    typeBeat.play();
-    typeBeat.loop();
+    if(millis()< 10000 && millis() >0){
+        typeBeat.play();
+        typeBeat.loop();
+    }
+    if(millis()> 10000 && millis() <20000){
+        typeBeat.pause();
+    }
+    if(millis()> 20000){
+        typeBeat.play();
+        typeBeat.loop();
+    }
 }
 
 function assignSign(){
-    signRecord.start();
-    switch(signRecord.resultString){
-        case 'leo':
+    recordSign.start();
+    console.log(recordSign.resultString);
+    //switch(signRecord.resultString){
+     //   case 'leo':
     animation(leoAni,width/2,height/2);
-            break
+          //  break
         //play animation
        //}
-}
 }
 
 function allzodiacs(){//change size and place in rows
