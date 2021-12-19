@@ -3,8 +3,11 @@
 //https://youtu.be/nMUMZ5YRxHI
 //https://www.youtube.com/watch?v=i2C1hrJMwz0&list=WL&index=13
 //https://www.youtube.com/watch?v=RrjOp2tJ3VE
+//https://editor.p5js.org/esztvi/sketches/yuvIkGYR3
+//https://www.wellandgood.com/what-tarot-cards-represent-which-zodiac-signs/
 //for the Disco class
 //let r =40;
+//it should work it has worked you might have to try 2-3 times and i have leo as the default
 let bob;
 let discos = [];//my class of blobs for lava lamp
 //images of card
@@ -54,9 +57,21 @@ function preload(){
     piscesImage = loadImage('zodiacs/Back_card_pisces.png');
 	
     //add animations
+    
+    ariesAni = loadAnimation('zodiacs/Back_card_aries.png', 'zodiacs/aries_emperor.png', 'zodiacs/aries_emperor2.png');
+    taurusAni = loadAnimation('zodiacs/Back_card_taurus.png', 'zodiacs/taurus_hierophant.png', 'zodiacs/taurus_hierophant2.png');
+    geminiAni = loadAnimation('zodiacs/Gemini_back.png', 'zodiacs/gemini_lovers_1.png', 'zodiacs/gemini_lovers_2.png');
+    cancerAni = loadAnimation('zodiacs/Back_card_cancer.png','zodiacs/cancer_chariots.png', 'zodiacs/cancer_chariots2.png');
     leoAni = loadAnimation('zodiacs/Back_card_leo.png','zodiacs/leo_strength.png','zodiacs/leo_strength2.png');
-	
-    //add rnb background sound
+    virgoAni = loadAnimation('zodiacs/Back_card_virgo.png', 'zodiacs/virgo_hermit.png', 'zodiacs/virgo_hermit2.png');
+    libraAni = loadAnimation('zodiacs/Back_card_libra.png', 'zodiacs/libra_justice.png', 'zodiacs/libra_justice2.png');
+    scorpioAni = loadAnimation('zodiacs/Back_card_scorpio.png', 'zodiacs/scorpio_death.png', 'zodiacs/scorpio_death2.png');
+    sagittariusAni = loadAnimation('zodiacs/Back_card_sagittarius.png', 'zodiacs/saggitarius_temp.png', 'zodiacs/saggitarius_temp2.png');
+    capricornAni = loadAnimation('zodiacs/Back_card_capricorn.png', 'zodiacs/capricorn_devil.png', 'zodiacs/capricorn_devil2.png');
+    aquariusAni = loadAnimation('zodiacs/Back_card_ aquarius.png', 'zodiacs/aquarius_star.png', 'zodiacs/aquarius_star2.png');
+    piscesAni = loadAnimation('zodiacs/Back_card_pisces.png', 'zodiacs/pisces_moon.png', 'zodiacs/pisces_moon2.png');
+    
+    //add rnb background sound & zodiac explanation
     soundFormats('mp3','ogg');
     typeBeat = loadSound('zodiacs/sminotypebeat'); 
     fontType = loadFont('zodiacs/Fragmentcore.otf');
@@ -65,6 +80,8 @@ function preload(){
 function setup() {
     let sound = createCanvas(650, 750);//the only way to load osound is with user input
     sound.mousePressed(canvasPressed);
+    recordSign.start();
+    console.log(recordSign);
 	//colorMode(HSB);
 	pixelDensity(1);//so that the retina display doesnt warp how i change the color of the pixels
 	for (let i =0; i< 5; i++){
@@ -107,18 +124,21 @@ updatePixels();// have to update everytime
     if(millis()< 10000 && millis() >0){
        allzodiacs();
         text('Play',10,50);
-        text('What Is Your Zodiac Sign?',110,100);
+        text('What Is Your Zodiac Sign? (speak)',100,100);
         
        }
-     if(millis()> 10000 && millis() <20000){
-        recordSign.onResult = assignSign;
+     if(millis()> 10000){
+         if(recordSign.resultValue == true){
+             assignSign();
+             //recordSign.onResult = assignSign;
     }
- if(millis()> 20000){
-      allzodiacs();
-        text('Play',10,50);
-        text('What Is Your Zodiac Sign?',110,100);
-      //  sound.mousePressed(canvasPressed);
- }
+         else{
+             animation(leoAni,425,height/2);
+             textSize(30);
+             text('Your Zodiac sign represents the tarot card Strength. Get into the arena to rumble with vulnerability and get ready to step into the spotlight of influence.', 5,50,200);
+         }
+     }
+
 	//bob.update();
 	//bob.display();
 //console.log(frameRate());
@@ -126,28 +146,85 @@ updatePixels();// have to update everytime
 
 
 function canvasPressed(){
-    if(millis()< 10000 && millis() >0){
+    typeBeat.setVolume(0.1);
         typeBeat.play();
         typeBeat.loop();
-    }
-    if(millis()> 10000 && millis() <20000){
-        typeBeat.pause();
-    }
-    if(millis()> 20000){
-        typeBeat.play();
-        typeBeat.loop();
-    }
 }
 
-function assignSign(){
-    recordSign.start();
-    console.log(recordSign.resultString);
-    //switch(signRecord.resultString){
-     //   case 'leo':
-    animation(leoAni,width/2,height/2);
-          //  break
-        //play animation
-       //}
+function assignSign(){//plays all my scenarios
+    switch(recordSign.resultString){
+       case 'Aries':
+    animation(ariesAni,425,height/2);
+    textSize(25);
+    text('Your Zodiac sign represents the tarot card the Emperor. You aren’t afraid of standing in your power and making decisions to impact the greater good. Embody the Emperor by trusting your gut to lead you in the right direction.', 5,50,200);
+        break;
+            
+        case 'Taurus':
+    animation(taurusAni,425,height/2);
+    textSize(25);
+    text('Your Zodiac sign represents the tarot card the Hierophant. The Hierophant acts as our symbolic religious leader, representing the value and educational foundations that we seek and adhere to regularly. Remember your habits form your character. You may need to re-evaluate your beliefs or pursue higher education.', 5,50,200);
+        break;
+            
+        case 'Gemini':
+    animation(geminiAni,425,height/2);
+    textSize(25);
+    text('Your Zodiac sign represents the tarot card the Lovers. You signify the great duality in all of us. Using your skills of empathetic communication, you teach us the significance of integrating all the parts of ourselves to accomplish our highest good. Find a soul-bond connection that will illuminate your self-awareness.', 5,50,200);
+        break;
+            
+        case 'Cancer':
+    animation(cancerAni,425,height/2);
+    textSize(25);
+    text('Your Zodiac sign represents the tarot card the Chariot. You are continually creating (and re-creating) solid structures in a transient world. You need to create the security that you need to get to where you’re going.', 5,50,200);
+        break;  
+            
+        case 'Leo':
+    animation(leoAni,425,height/2);
+    textSize(30);
+    text('Your Zodiac sign represents the tarot card Strength. Get into the arena to rumble with vulnerability and get ready to step into the spotlight of influence.', 5,50,200);
+        break; 
+            
+        case 'Virgo':
+    animation(virgoAni,425,height/2);
+    textSize(25);
+    text('Your Zodiac sign represents the tarot card the Hermit. As a mutable Virgo, you possess the inner discipline needed in order to achieve enlightenment. This tarot nods to a life of zero distractions to perfect a spiritual path. Expect themes of mastery or self-explorative pursuits.', 5,50,200);
+        break; 
+            
+        case 'Libra':
+    animation(libraAni,425,height/2);
+    textSize(25);
+    text('Your Zodiac sign represents the tarot card Justice. Everyone is equal in your eyes, consistently doing your best to find a harmonious balance for what is fair and just. Remember that integrity always wins out in the end.', 5,50,200);
+        break; 
+              
+        case 'Scorpio':
+    animation(scorpioAni,425,height/2);
+    textSize(25);
+    text('Your Zodiac sign represents the tarot card Death. To be clear, the death card is not literally predictive of death. Rather, it means a major transformation is around the corner. As a Scorpio you are not concerned with superficiality; you are a truth-seeker who we can always count on for a root-cause analysis. Expect an in-depth meaning of life conversation.', 5,50,200);
+        break; 
+              
+        case 'Sagittarius':
+    animation(sagittariusAni,425,height/2);
+    textSize(25);
+    text('Your Zodiac sign represents the tarot card Temperance. You are a blend of duality. You are the explorers of the zodiac, consistently striving for an alchemic balance of traveling and staying home, turning up and going to bed early. You can have it all, but not all at once.', 5,50,200);
+        break; 
+            
+        case 'Capricorn':
+    animation(capricornAni,425,height/2);
+    textSize(25);
+    text('Your Zodiac sign represents the tarot card the Devil. You are associated with an earthly, success orientation. Your ambition can sometimes come to your detriment, so the Devil reminds should remind you to stop yourself short of the seven deadly sins when it comes to reaching your goals.', 5,50,200);
+        break; 
+            
+        case 'Aquarius':
+    animation(aquariusAni,425,height/2);
+    textSize(25);
+    text('Your Zodiac sign represents the tarot card the Star. You act as the humanitarians of the zodiac, offering their strategic, inspirational help. Remember to contribute your unique talents.', 5,50,200);
+        break; 
+            
+        case 'Pisces':
+    animation(piscesAni,425,height/2);
+    textSize(25);
+    text('Your Zodiac sign represents the tarot card the Moon. You are charming, creative, and empathetic. Often, you are going with the flow, which can also mean getting caught up in the undertow. Evaluate the undercurrent of your subconscious to tap into your intuitive flow.', 5,50,200);
+        break; 
+       }
 }
 
 function allzodiacs(){//change size and place in rows
