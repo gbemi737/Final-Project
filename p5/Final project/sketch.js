@@ -1,3 +1,5 @@
+//it should work it has worked for me you might have to try 2-3 times and really project
+//i have leo as the default
 //videos that were helpful to my project
 //https://www.youtube.com/watch?v=ccYLb7cLB1I&list=WL&index=4&t=186s(shiffman)
 //https://youtu.be/nMUMZ5YRxHI
@@ -7,7 +9,6 @@
 //https://www.wellandgood.com/what-tarot-cards-represent-which-zodiac-signs/
 //for the Disco class
 //let r =40;
-//it should work it has worked you might have to try 2-3 times and i have leo as the default
 let bob;
 let discos = [];//my class of blobs for lava lamp
 //images of card
@@ -78,10 +79,10 @@ function preload(){
 }
 
 function setup() {
-    let sound = createCanvas(650, 750);//the only way to load osound is with user input
+    let sound = createCanvas(650, 750);//the only way to load sound is with user input
     sound.mousePressed(canvasPressed);
     recordSign.start();
-    console.log(recordSign);
+    console.log(recordSign);//i did not make it continuous on purpose it should only get one word
 	//colorMode(HSB);
 	pixelDensity(1);//so that the retina display doesnt warp how i change the color of the pixels
 	for (let i =0; i< 5; i++){
@@ -146,12 +147,12 @@ updatePixels();// have to update everytime
 
 
 function canvasPressed(){
-    typeBeat.setVolume(0.1);
+    typeBeat.setVolume(0.1);//so that the person using this will be able to speak over music
         typeBeat.play();
-        typeBeat.loop();
+        typeBeat.loop();//to play again after music is over
 }
 
-function assignSign(){//plays all my scenarios
+function assignSign(){//plays all my scenarios this is like an if,if else statement
     switch(recordSign.resultString){
        case 'Aries':
     animation(ariesAni,425,height/2);
@@ -282,7 +283,7 @@ class Disco {//making am= moving blob to affect the color
 			 this.vel.y *= -1
 	}
 	}
-	display(){
+	display(){//the actual ball that is moving but cant be seen
 		noFill();
 		stroke(0);
 		strokeWeight(4); 
